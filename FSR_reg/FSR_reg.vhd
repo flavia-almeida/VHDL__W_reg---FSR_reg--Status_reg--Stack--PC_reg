@@ -22,12 +22,20 @@ END ENTITY;
 ARCHITECTURE Arch1 OF FSR_reg IS	
 	signal fsr_out_tmp: STD_LOGIC_VECTOR(7 DOWNTO 0);
 BEGIN
+	
+	process(clk_in, nrst)
+	BEGIN
+		IF nrst = '0' THEN
+			fsr_out <= (others => '0');
+		ELSIF rising_edge(clk_in) AND abus_in (6 DOWNTO 0) = "0000100" THEN
+			IF wr_en = '1' THEN
+				fsr_out_tmp <= dbus_in;
+			END IF;
+		END IF;
+	END PROCESS;
 
-	fsr_out_tmp = '00000000' WHEN nrst = '1' ELSE
-	dbus_in WHEN clk_in = '1' AND abus_in(6 DOWNTO 0) = "0000100" AND wr_en = '1';
 	
-	fsr_out = fsr_out_tmp;
-	
-	dbus_out = fsr_out_tmp WHEN rd_en = '1' AND abus_in(6 DOWNTO 0) = "0000100";
+	fsr_out <= fsr_out_tmp;
+	dbus_out <= fsr_out_tmp WHEN rd_en = '1' AND abus_in(6 DOWNTO 0) = "0000100";
 	
 END Arch1;
