@@ -3,7 +3,7 @@ USE ieee.std_logic_1164.all;
 USE ieee.numeric_std.all;
 USE ieee.std_logic_unsigned.all;
 
-ENTITY Status_reg IS 
+ENTITY Stack IS 
 	PORT (
 	
 	nrst: IN STD_LOGIC; -- zera o registrador
@@ -14,46 +14,30 @@ ENTITY Status_reg IS
 	
 -- ---------------- SAIDAS ----------------------
 	
-	stack_out: OUT STD_LOGIC_VECTOR(12 DOWNTO 0); -- saida da leitura exceto os bits 4 e 3
-	)
+	stack_out: OUT STD_LOGIC_VECTOR(12 DOWNTO 0) -- saida da leitura exceto os bits 4 e 3
+	);
 END ENTITY;
 
-ARCHITECTURE Arch1 OF Status_reg IS	
-	signal registrador: STD_LOGIC_VECTOR(7 DOWNTO 0); -- registrador final
+ARCHITECTURE Arch1 OF Stack IS	
+		TYPE stack_reg_type IS ARRAY(0 to 7) OF
+		STD_LOGIC_VECTOR(12 DOWNTO 0);				
+	SIGNAL stack_reg : stack_reg_type;
 BEGIN
-	
-	
-	process(clk_in, nrst)
+	process(nrst, clk_in)
 	BEGIN
 		IF rising_edge(clk_in) THEN
-		
-			IF nrst = '1' THEN
-				registrador <= (others => '0');
-				irp_out <= '0';
-				rp_out(0) <= '0';
-				rp_out(1) <= '0';
-				z_out <= '0';
-				dc_out <= '0';
-				c_out <= '0';
-			END IF;
-			
-			IF abus_in abus_in (6 DOWNTO 0) = "0000011" THEN
-			
-				registrador <= dbus_in;
-				registrador(4)<= '1';
-				registrador(3)<= '1';
-				irp_out <= registrador(7);
-				rp_out(0) <= registrador(5);
-				rp_out(1) <= registrador(6);
-				z_out <= registrador(2);
-				dc_out <= registrador(1);
-				c_out <= registrador(0);
-				
-				IF rd_en = '1' THEN
-					dbus_out <= registrador;
-				END IF;
-				
+			stack_reg <= (others => (others => '0'));
+			IF nrst = '0' THEN
+				stack_reg <= (others => (others => '0'));
+			ELSIF stack_pop = '1' THEN
+				stack_reg(7) <=(others => '0');
+				stack_reg(0 to 6) <= stack_reg (1 to 7);
+			ELSIF stack_push = '1' THEN
+				stack_reg(0) <= stack_in;
+				stack_reg(1 TO 7) <= stack_reg(0 TO 6);
 			END IF;
 		END IF;
 	END PROCESS;
+	
+	stack_out <= stack_reg(0);
 END Arch1;
