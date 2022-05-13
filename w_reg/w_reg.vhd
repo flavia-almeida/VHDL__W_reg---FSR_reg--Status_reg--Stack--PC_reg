@@ -1,7 +1,7 @@
 LIBRARY ieee;
 USE ieee.std_logic_1164.all;
 USE ieee.numeric_std.all;
-USE ieee.std_logic_unsigned.all
+USE ieee.std_logic_unsigned.all;
 
 ENTITY w_reg IS 
 	PORT (
@@ -11,7 +11,7 @@ ENTITY w_reg IS
 	d_in: IN STD_LOGIC_VECTOR(7 DOWNTO 0); -- entrada de dados para o registrador
 	wr_en: IN STD_LOGIC; -- enable escrita no registrador
 	
-	w_out: OUT STD_LOGIC_VECTOR(7 DOWNTO 0); -- saida de dados do registrador
+	w_out: OUT STD_LOGIC_VECTOR(7 DOWNTO 0) -- saida de dados do registrador
 	);
 END ENTITY;
 
