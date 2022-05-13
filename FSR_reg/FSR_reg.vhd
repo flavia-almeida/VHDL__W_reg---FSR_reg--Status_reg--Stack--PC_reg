@@ -25,17 +25,17 @@ BEGIN
 	
 	process(clk_in, nrst)
 	BEGIN
+	fsr_out <= (others => '0'); -- inicializa a saida
 		IF nrst = '0' THEN
-			fsr_out <= (others => '0');
+			fsr_out_tmp <= (others => '0');
 		ELSIF rising_edge(clk_in) AND abus_in (6 DOWNTO 0) = "0000100" THEN
 			IF wr_en = '1' THEN
 				fsr_out_tmp <= dbus_in;
 			END IF;
 		END IF;
+--		programCounter(12 DOWNTO 8) <= pcLath(4 DOWNTO 0);
+		fsr_out <= fsr_out_tmp;
 	END PROCESS;
 
-	
-	fsr_out <= fsr_out_tmp;
-	dbus_out <= fsr_out_tmp WHEN rd_en = '1' AND abus_in(6 DOWNTO 0) = "0000100";
-	
+	dbus_out <= fsr_out_tmp WHEN abus_in(6 DOWNTO 0) = "0000100" AND rd_en = '1' ELSE "ZZZZZZZZ"; -- Saída da leitura
 END Arch1;
