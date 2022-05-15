@@ -34,7 +34,7 @@ BEGIN
 	process(nrst, clk_in)
 	BEGIN
 		IF nrst = '0' THEN
-			stack_reg <= (others => (others => '0'));
+			stack_reg <= (others => '0');
 		ELSIF rising_edge(clk_in) THEN
 			IF load_pc = '1' THEN
 				PCLATH(10 DOWNTO 0) = addr_in;

@@ -28,7 +28,7 @@ ENTITY Status_reg IS
 	z_out: OUT STD_LOGIC; --saida do bit 2 do registrador (sempre ativa)
 	dc_out: OUT STD_LOGIC; --saida do bit 1 do registrador (sempre ativa)
 	c_out: OUT STD_LOGIC --saida do bit 0 do registrador (sempre ativa)
-	)
+	);
 END ENTITY;
 
 ARCHITECTURE Arch1 OF Status_reg IS	
@@ -39,8 +39,8 @@ BEGIN
 	process(clk_in, nrst)
 	BEGIN
 		IF rising_edge(clk_in) THEN
-		
-			IF nrst = '1' THEN
+
+			IF nrst = '0' THEN
 				registrador <= (others => '0');
 				irp_out <= '0';
 				rp_out(0) <= '0';
@@ -50,21 +50,34 @@ BEGIN
 				c_out <= '0';
 			END IF;
 			
-			IF abus_in abus_in (6 DOWNTO 0) = "0000011" THEN
+			IF abus_in(6 DOWNTO 0) = "0000011" THEN
 			
-				registrador <= dbus_in;
-				registrador(4)<= '1';
-				registrador(3)<= '1';
-				irp_out <= registrador(7);
-				rp_out(0) <= registrador(5);
-				rp_out(1) <= registrador(6);
-				z_out <= registrador(2);
-				dc_out <= registrador(1);
-				c_out <= registrador(0);
+			registrador <= dbus_in;
+			registrador(4)<= '1';
+			registrador(3)<= '1';
+			
+				IF z_wr_en = '1' THEN
+					registrador(2) <= z_in;
+					z_out <= registrador(2);
+				END IF;
+				
+				IF dc_wr_en = '1' THEN
+					registrador(1) <= dc_in;
+					dc_out <= registrador(1);
+				END IF;
+				
+				IF c_wr_en = '1' THEN
+					registrador(0) <= c_in;
+					c_out <= registrador(0);
+				END IF;					
 				
 				IF rd_en = '1' THEN
 					dbus_out <= registrador;
 				END IF;
+				
+				irp_out <= registrador(7);
+				rp_out(0) <= registrador(5);
+				rp_out(1) <= registrador(6);
 				
 			END IF;
 		END IF;

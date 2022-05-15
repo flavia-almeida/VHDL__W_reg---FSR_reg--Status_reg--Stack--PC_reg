@@ -8,10 +8,10 @@ ENTITY FSR_reg IS
 	
 	nrst: IN STD_LOGIC; -- zera o registrador
 	clk_in: IN STD_LOGIC; -- clock, escrita na borda de subida
-	abus_in: IN STD_LOGIC_VECTOR(8 DOWNTO 0); -- entrada de endereçamento abus_in[6..0] = “0000100”.
+	abus_in: IN STD_LOGIC_VECTOR(8 DOWNTO 0); -- entrada de endereï¿½amento abus_in[6..0] = ï¿½0000100ï¿½.
 	dbus_in: IN STD_LOGIC_VECTOR(7 DOWNTO 0); -- entrada de dados para escrita
 	wr_en: IN STD_LOGIC; -- habilita escrita dbus_in para fsr_out
-	rd_en: IN STD_LOGIC; -- habilitaçao da leitura dbus_out = fsr_out
+	rd_en: IN STD_LOGIC; -- habilitaï¿½ao da leitura dbus_out = fsr_out
 	
 	
 	dbus_out: OUT STD_LOGIC_VECTOR(7 DOWNTO 0); -- saida da leitura
@@ -25,17 +25,22 @@ BEGIN
 	
 	process(clk_in, nrst)
 	BEGIN
-	fsr_out <= (others => '0'); -- inicializa a saida
+	fsr_out_tmp <= (others => '0');
+	IF rising_edge(clk_in) THEN
 		IF nrst = '0' THEN
 			fsr_out_tmp <= (others => '0');
-		ELSIF rising_edge(clk_in) AND abus_in (6 DOWNTO 0) = "0000100" THEN
+		ELSIF abus_in (6 DOWNTO 0) = "0000100" THEN
 			IF wr_en = '1' THEN
 				fsr_out_tmp <= dbus_in;
 			END IF;
 		END IF;
+		IF rd_en = '1' THEN
+			dbus_out <= fsr_out_tmp WHEN abus_in(6 DOWNTO 0) = "0000100"; -- ELSE "ZZZZZZZZ"; -- Saï¿½da da leitura
+		END IF;
+	END IF;
 --		programCounter(12 DOWNTO 8) <= pcLath(4 DOWNTO 0);
 		fsr_out <= fsr_out_tmp;
 	END PROCESS;
 
-	dbus_out <= fsr_out_tmp WHEN abus_in = "0000100" AND rd_en = '1' ELSE "ZZZZZZZZ"; -- Saída da leitura
+--	dbus_out <= fsr_out_tmp WHEN abus_in(6 DOWNTO 0) = "0000100" AND rd_en = '1' ELSE "ZZZZZZZZ"; -- Saï¿½da da leitura
 END Arch1;
