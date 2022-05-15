@@ -1,5 +1,5 @@
 Analysis & Synthesis report for Stack
-Fri May 13 17:34:58 2022
+Sun May 15 13:34:42 2022
 Quartus II Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Web Edition
 
 
@@ -41,7 +41,7 @@ applicable agreement for further details.
 +-----------------------------------------------------------------------------------+
 ; Analysis & Synthesis Summary                                                      ;
 +------------------------------------+----------------------------------------------+
-; Analysis & Synthesis Status        ; Successful - Fri May 13 17:34:58 2022        ;
+; Analysis & Synthesis Status        ; Successful - Sun May 15 13:34:42 2022        ;
 ; Quartus II Version                 ; 9.1 Build 350 03/24/2010 SP 2 SJ Web Edition ;
 ; Revision Name                      ; Stack                                        ;
 ; Top-level Entity Name              ; Stack                                        ;
@@ -166,9 +166,9 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ;                                             ;           ;
 ; Total combinational functions               ; 105       ;
 ; Logic element usage by number of LUT inputs ;           ;
-;     -- 4 input functions                    ; 104       ;
-;     -- 3 input functions                    ; 1         ;
-;     -- <=2 input functions                  ; 0         ;
+;     -- 4 input functions                    ; 0         ;
+;     -- 3 input functions                    ; 91        ;
+;     -- <=2 input functions                  ; 14        ;
 ;                                             ;           ;
 ; Logic elements by mode                      ;           ;
 ;     -- normal mode                          ; 105       ;
@@ -181,8 +181,8 @@ Parallel compilation was disabled, but you have multiple processors available. E
 ; I/O pins                                    ; 30        ;
 ; Maximum fan-out node                        ; stack_pop ;
 ; Maximum fan-out                             ; 105       ;
-; Total fan-out                               ; 640       ;
-; Average fan-out                             ; 2.68      ;
+; Total fan-out                               ; 730       ;
+; Average fan-out                             ; 3.05      ;
 +---------------------------------------------+-----------+
 
 
@@ -204,9 +204,9 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 ; Total registers                              ; 104   ;
 ; Number of registers using Synchronous Clear  ; 0     ;
 ; Number of registers using Synchronous Load   ; 0     ;
-; Number of registers using Asynchronous Clear ; 0     ;
+; Number of registers using Asynchronous Clear ; 104   ;
 ; Number of registers using Asynchronous Load  ; 0     ;
-; Number of registers using Clock Enable       ; 0     ;
+; Number of registers using Clock Enable       ; 104   ;
 ; Number of registers using Preset             ; 0     ;
 +----------------------------------------------+-------+
 
@@ -216,8 +216,8 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
 ; Multiplexer Inputs ; Bus Width ; Baseline Area ; Area if Restructured ; Saving if Restructured ; Registered ; Example Multiplexer Output ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
-; 4:1                ; 13 bits   ; 26 LEs        ; 13 LEs               ; 13 LEs                 ; Yes        ; |Stack|stack_reg[7][12]    ;
-; 4:1                ; 91 bits   ; 182 LEs       ; 182 LEs              ; 0 LEs                  ; Yes        ; |Stack|stack_reg[1][0]     ;
+; 3:1                ; 13 bits   ; 26 LEs        ; 13 LEs               ; 13 LEs                 ; Yes        ; |Stack|stack_reg[7][12]    ;
+; 3:1                ; 91 bits   ; 182 LEs       ; 91 LEs               ; 91 LEs                 ; Yes        ; |Stack|stack_reg[1][0]     ;
 +--------------------+-----------+---------------+----------------------+------------------------+------------+----------------------------+
 
 
@@ -227,7 +227,7 @@ Note: For table entries with two numbers listed, the numbers in parentheses indi
 Info: *******************************************************************
 Info: Running Quartus II Analysis & Synthesis
     Info: Version 9.1 Build 350 03/24/2010 Service Pack 2 SJ Web Edition
-    Info: Processing started: Fri May 13 17:34:57 2022
+    Info: Processing started: Sun May 15 13:34:41 2022
 Info: Command: quartus_map --read_settings_files=on --write_settings_files=off Stack -c Stack
 Info: Found 2 design units, including 1 entities, in source file stack.vhd
     Info: Found design unit 1: Stack-Arch1
@@ -238,8 +238,8 @@ Info: Implemented 135 device resources after synthesis - the final resource coun
     Info: Implemented 13 output pins
     Info: Implemented 105 logic cells
 Info: Quartus II Analysis & Synthesis was successful. 0 errors, 0 warnings
-    Info: Peak virtual memory: 233 megabytes
-    Info: Processing ended: Fri May 13 17:34:58 2022
+    Info: Peak virtual memory: 242 megabytes
+    Info: Processing ended: Sun May 15 13:34:42 2022
     Info: Elapsed time: 00:00:01
     Info: Total CPU time (on all processors): 00:00:02
 

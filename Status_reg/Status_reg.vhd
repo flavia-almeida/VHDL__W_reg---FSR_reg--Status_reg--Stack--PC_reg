@@ -38,9 +38,7 @@ BEGIN
 	
 	process(clk_in, nrst)
 	BEGIN
-		IF rising_edge(clk_in) THEN
-
-			IF nrst = '0' THEN
+		IF nrst = '0' THEN
 				registrador <= (others => '0');
 				irp_out <= '0';
 				rp_out(0) <= '0';
@@ -48,38 +46,43 @@ BEGIN
 				z_out <= '0';
 				dc_out <= '0';
 				c_out <= '0';
-			END IF;
+		
+		ELSIF rising_edge(clk_in) THEN
 			
-			IF abus_in(6 DOWNTO 0) = "0000011" THEN
-			
-			registrador <= dbus_in;
-			registrador(4)<= '1';
-			registrador(3)<= '1';
-			
+			IF abus_in(6 DOWNTO 0) = "0000011" THEN				
+
+				
+				IF wr_en = '1' THEN
+					registrador <= dbus_in;
+				END IF;
+				registrador(4)<= '1';
+				registrador(3)<= '1';
+								
 				IF z_wr_en = '1' THEN
-					registrador(2) <= z_in;
-					z_out <= registrador(2);
+					registrador(2) <= z_in;					
 				END IF;
 				
 				IF dc_wr_en = '1' THEN
-					registrador(1) <= dc_in;
-					dc_out <= registrador(1);
+					registrador(1) <= dc_in;					
 				END IF;
 				
 				IF c_wr_en = '1' THEN
-					registrador(0) <= c_in;
-					c_out <= registrador(0);
+					registrador(0) <= c_in;					
 				END IF;					
 				
-				IF rd_en = '1' THEN
-					dbus_out <= registrador;
-				END IF;
+
 				
+				c_out <= registrador(0);
+				z_out <= registrador(2);
+				dc_out <= registrador(1);
 				irp_out <= registrador(7);
 				rp_out(0) <= registrador(5);
-				rp_out(1) <= registrador(6);
-				
+				rp_out(1) <= registrador(6);	
+						
 			END IF;
+		END IF;
+		IF rd_en = '1' THEN
+				dbus_out <= registrador;
 		END IF;
 	END PROCESS;
 END Arch1;

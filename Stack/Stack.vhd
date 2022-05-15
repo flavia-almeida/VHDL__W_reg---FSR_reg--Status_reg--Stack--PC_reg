@@ -25,11 +25,11 @@ ARCHITECTURE Arch1 OF Stack IS
 BEGIN
 	process(nrst, clk_in)
 	BEGIN
-		IF rising_edge(clk_in) THEN
+		IF nrst = '0' THEN
 			stack_reg <= (others => (others => '0'));
-			IF nrst = '0' THEN
-				stack_reg <= (others => (others => '0'));
-			ELSIF stack_pop = '1' THEN
+		ELSIF rising_edge(clk_in) THEN
+						
+			IF stack_pop = '1' THEN
 				stack_reg(7) <=(others => '0');
 				stack_reg(0 to 6) <= stack_reg (1 to 7);
 			ELSIF stack_push = '1' THEN
